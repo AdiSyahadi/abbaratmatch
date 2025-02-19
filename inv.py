@@ -69,7 +69,7 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         ax.set_title("Proporsi Data Valid dan Invalid")
         
         # Tampilkan pie chart di Streamlit
-        st.write("Visualisasi Proporsi Data Valid dan Invalid:")
+        st.write("Visualisasi Proporsi Data Program AB Barat dan AB Pusat:")
         st.pyplot(fig)
         
         # Tampilkan catatan total data dan nominal
