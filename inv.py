@@ -49,17 +49,17 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         # Filter data yang dihapus (invoice tidak valid)
         deleted_df = df_rekap[~df_rekap['Invoice'].isin(valid_invoices)]
         
-        # Daftar nomor invoice yang tidak cocok/tidak ada
-        unmatched_invoices = deleted_df['Invoice'].unique().tolist()
-        
-        # Hitung jumlah nomor invoice yang tidak cocok
-        unmatched_count = len(unmatched_invoices)
-        
-        # Temukan nomor invoice dalam file daftar valid yang tidak digunakan dalam file rekap
-        unused_invoices = [inv for inv in valid_invoices if inv not in df_rekap['Invoice'].unique()]
+        # Hitung jumlah nominal untuk data valid dan invalid
+        try:
+            total_nominal_valid = filtered_df['Nominal Settled (Rp)'].sum()
+            total_nominal_invalid = deleted_df['Nominal Settled (Rp)'].sum()
+        except KeyError:
+            st.error("Kolom 'Nominal Settled (Rp)' tidak ditemukan dalam file Excel. Pastikan nama kolom benar.")
+            total_nominal_valid = 0
+            total_nominal_invalid = 0
         
         # Persiapkan data untuk pie chart
-        categories = ["Program Abbarat", "Program Pusat"]
+        categories = ["Program Abbarat (Valid)", "Program Pusat (Invalid)"]
         values = [len(filtered_df), len(deleted_df)]
         colors = ["green", "yellow"]  # Warna untuk setiap bagian
         
@@ -69,28 +69,22 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         ax.set_title("Proporsi Data Valid dan Invalid")
         
         # Tampilkan pie chart di Streamlit
-        st.write("Visualisasi Proporsi Data abbarat dan ab pusat:")
+        st.write("Visualisasi Proporsi Data Valid dan Invalid:")
         st.pyplot(fig)
         
-        # Tampilkan catatan total data
+        # Tampilkan catatan total data dan nominal
         st.write(f"Catatan:")
         st.write(f"- Total Data: {len(df_rekap)}")
-        st.write(f"- Program Abbarat: {len(filtered_df)}")
-        st.write(f"- Program Pusat : {len(deleted_df)}")
-        #st.write(f"- Total Data Invoice Web: {len(df_invoices)}")
-        #st.write(f"- Invoice web yang tidak ditemukan di FLIP : {len(unused_invoices)}")
+        st.write(f"- Program Abbarat (Valid): {len(filtered_df)} (Total Nominal: Rp{total_nominal_valid:,.0f})")
+        st.write(f"- Program Pusat (Invalid): {len(deleted_df)} (Total Nominal: Rp{total_nominal_invalid:,.0f})")
         
         # Tampilkan data hasil filter
-        st.write("Data AB Barat:")
+        st.write("Data Hasil Filter (Valid):")
         st.dataframe(filtered_df)
         
         # Tampilkan data yang dihapus
-        st.write("Data Ab Pusat:")
+        st.write("Data yang Dihapus (Invalid):")
         st.dataframe(deleted_df)
-        
-        # Tampilkan data yang dihapus
-        st.write("Data Invoice web yang tidak cocok (Invalid):")
-        st.dataframe(unused_invoices)
         
         # Download file hasil filter
         if st.button("Download File Hasil Filter"):
@@ -105,16 +99,16 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
             st.success(f"File data yang dihapus berhasil disimpan sebagai {output_deleted_file}")
         
         # Download daftar nomor invoice yang tidak cocok
+        unmatched_invoices = deleted_df['Invoice'].unique().tolist()
         if st.button("Download Daftar Nomor Invoice Flip Tidak Cocok"):
-            # Buat DataFrame untuk nomor invoice yang tidak cocok
             unmatched_df = pd.DataFrame({"Nomor Invoice Tidak Cocok": unmatched_invoices})
             output_unmatched_file = "unmatched_invoices.xlsx"
             unmatched_df.to_excel(output_unmatched_file, index=False)
             st.success(f"File daftar nomor invoice yang tidak cocok berhasil disimpan sebagai {output_unmatched_file}")
         
         # Download daftar nomor invoice dalam file daftar valid yang tidak digunakan
+        unused_invoices = [inv for inv in valid_invoices if inv not in df_rekap['Invoice'].unique()]
         if st.button("Download Daftar Nomor Invoice WEB Tidak Cocok"):
-            # Buat DataFrame untuk nomor invoice yang tidak digunakan
             unused_df = pd.DataFrame({"Nomor Invoice Tidak Digunakan": unused_invoices})
             output_unused_file = "unused_invoices.xlsx"
             unused_df.to_excel(output_unused_file, index=False)
