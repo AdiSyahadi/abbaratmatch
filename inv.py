@@ -5,10 +5,10 @@ import pandas as pd
 st.title("Filter Data Berdasarkan Nomor Invoice dari CSV")
 
 # Upload file Excel rekap
-uploaded_rekap_file = st.file_uploader("Upload File Excel Dari Flip", type=["xlsx"])
+uploaded_rekap_file = st.file_uploader("Upload File Excel dari FLIP", type=["xlsx"])
 
 # Upload file CSV nomor invoice valid
-uploaded_invoice_file = st.file_uploader("Upload File CSV Nomor Invoice dari WEB", type=["csv"])
+uploaded_invoice_file = st.file_uploader("Upload File CSV Nomor Invoice dari Website", type=["csv"])
 
 if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
     # Baca file Excel rekap
@@ -59,9 +59,9 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         
         # Tampilkan jumlah baris sebelum dan sesudah filter
         st.write(f"Jumlah baris sebelum filter: {len(df_rekap)}")
-        st.write(f"Jumlah baris setelah filter: {len(filtered_df)}")
-        st.write(f"Jumlah baris yang dihapus: {len(deleted_df)}")
-        st.write(f"Jumlah nomor invoice yang tidak cocok: {unmatched_count}")
+        st.write(f"Jumlah data program abbarat: {len(filtered_df)}")
+        st.write(f"Jumlah data program pusat: {len(deleted_df)}")
+        #st.write(f"Jumlah nomor invoice yang tidak cocok: {unmatched_count}")
         
         # Tampilkan daftar nomor invoice yang tidak cocok
         #st.write("Daftar Nomor Invoice yang Tidak Cocok/Tidak Ada:")
@@ -90,7 +90,7 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
             st.success(f"File hasil filter berhasil disimpan sebagai {output_file}")
         
         # Download file data yang dihapus
-        if st.button("Download File Data yang Dihapus"):
+        if st.button("Download File Data transaksi laz pusat"):
             output_deleted_file = "deleted_data.xlsx"
             deleted_df.to_excel(output_deleted_file, index=False)
             st.success(f"File data yang dihapus berhasil disimpan sebagai {output_deleted_file}")
