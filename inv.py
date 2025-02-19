@@ -84,7 +84,7 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         st.dataframe(unused_invoices)
         
         # Download file hasil filter
-        if st.button("Download File Hasil Filter"):
+        if st.button("Download File program ab barat"):
             output_file = "filtered_data.xlsx"
             filtered_df.to_excel(output_file, index=False)
             st.success(f"File hasil filter berhasil disimpan sebagai {output_file}")
