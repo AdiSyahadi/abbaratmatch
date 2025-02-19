@@ -5,10 +5,10 @@ import pandas as pd
 st.title("Filter Data Berdasarkan Nomor Invoice dari CSV")
 
 # Upload file Excel rekap
-uploaded_rekap_file = st.file_uploader("Upload File Excel Rekap", type=["xlsx"])
+uploaded_rekap_file = st.file_uploader("Upload File Excel Dari Flip", type=["xlsx"])
 
 # Upload file CSV nomor invoice valid
-uploaded_invoice_file = st.file_uploader("Upload File CSV Nomor Invoice Valid", type=["csv"])
+uploaded_invoice_file = st.file_uploader("Upload File CSV Nomor Invoice dari WEB", type=["csv"])
 
 if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
     # Baca file Excel rekap
