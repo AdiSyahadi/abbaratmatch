@@ -77,6 +77,8 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         st.write(f"- Total Data: {len(df_rekap)}")
         st.write(f"- Program Abbarat: {len(filtered_df)}")
         st.write(f"- Program Pusat : {len(deleted_df)}")
+        #st.write(f"- Total Data Invoice Web: {len(df_invoices)}")
+        #st.write(f"- Invoice web yang tidak ditemukan di FLIP : {len(unused_invoices)}")
         
         # Tampilkan data hasil filter
         st.write("Data AB Barat:")
