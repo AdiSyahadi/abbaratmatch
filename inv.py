@@ -72,11 +72,11 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         #st.write(unused_invoices)
         
         # Tampilkan data hasil filter
-        st.write("Data program ab barat (Valid):")
+        st.write("Data program ab barat (yang cocok dengan data flip):")
         st.dataframe(filtered_df)
         
         # Tampilkan data yang dihapus
-        st.write("Data program laz pusat (Invalid):")
+        st.write("Data program laz pusat :")
         st.dataframe(deleted_df)
 
         # Tampilkan data yang dihapus
