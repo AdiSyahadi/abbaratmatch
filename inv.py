@@ -59,7 +59,7 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
             total_nominal_invalid = 0
         
         # Persiapkan data untuk pie chart
-        categories = ["Program Abbarat (Valid)", "Program Pusat (Invalid)"]
+        categories = ["Program Abbarat", "Program Pusat"]
         values = [len(filtered_df), len(deleted_df)]
         colors = ["green", "yellow"]  # Warna untuk setiap bagian
         
