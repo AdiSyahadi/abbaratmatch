@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Judul aplikasi
-st.title("Filter Data Berdasarkan Nomor Invoice dari CSV")
+st.title("Pencocokan Data Transaksi")
 
 # Upload file Excel rekap
 uploaded_rekap_file = st.file_uploader("Upload File Excel dari FLIP", type=["xlsx"])
