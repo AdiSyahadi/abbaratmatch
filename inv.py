@@ -75,8 +75,8 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         # Tampilkan catatan total data dan nominal
         st.write(f"Catatan:")
         st.write(f"- Total Data: {len(df_rekap)}")
-        st.write(f"- Program Abbarat (Valid): {len(filtered_df)} (Total Nominal: Rp{total_nominal_valid:,.0f})")
-        st.write(f"- Program Pusat (Invalid): {len(deleted_df)} (Total Nominal: Rp{total_nominal_invalid:,.0f})")
+        st.write(f"- Program Abbarat: {len(filtered_df)} (Total Nominal: Rp{total_nominal_valid:,.0f})")
+        st.write(f"- Program Pusat: {len(deleted_df)} (Total Nominal: Rp{total_nominal_invalid:,.0f})")
         
         # Tampilkan data hasil filter
         st.write("Data Hasil Filter (Valid):")
