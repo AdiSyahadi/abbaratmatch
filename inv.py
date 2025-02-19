@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt  # Impor Matplotlib
 
 # Judul aplikasi
-st.title("Pencocokan Data Transaksi")
+st.title("Filter Data Berdasarkan Nomor Invoice dari CSV")
 
 # Upload file Excel rekap
 uploaded_rekap_file = st.file_uploader("Upload File Excel dari FLIP", type=["xlsx"])
@@ -57,34 +58,40 @@ if uploaded_rekap_file is not None and uploaded_invoice_file is not None:
         # Temukan nomor invoice dalam file daftar valid yang tidak digunakan dalam file rekap
         unused_invoices = [inv for inv in valid_invoices if inv not in df_rekap['Invoice'].unique()]
         
-        # Tampilkan jumlah baris sebelum dan sesudah filter
-        st.write(f"Jumlah baris sebelum filter: {len(df_rekap)}")
-        st.write(f"Jumlah data program abbarat: {len(filtered_df)}")
-        st.write(f"Jumlah data program pusat: {len(deleted_df)}")
-        #st.write(f"Jumlah nomor invoice yang tidak cocok: {unmatched_count}")
+        # Persiapkan data untuk pie chart
+        categories = ["Program Abbarat", "Program Pusat"]
+        values = [len(filtered_df), len(deleted_df)]
+        colors = ["green", "yellow"]  # Warna untuk setiap bagian
         
-        # Tampilkan daftar nomor invoice yang tidak cocok
-        #st.write("Daftar Nomor Invoice yang Tidak Cocok/Tidak Ada:")
-        #st.write(unmatched_invoices)
+        # Buat pie chart menggunakan Matplotlib
+        fig, ax = plt.subplots(figsize=(6, 6))  # Atur ukuran chart
+        ax.pie(values, labels=categories, autopct='%1.1f%%', startangle=90, colors=colors)
+        ax.set_title("Proporsi Data Valid dan Invalid")
         
-        # Tampilkan daftar nomor invoice dalam file daftar valid yang tidak digunakan
-        #st.write("Nomor Invoice dalam File Daftar Valid yang Tidak Digunakan:")
-        #st.write(unused_invoices)
+        # Tampilkan pie chart di Streamlit
+        st.write("Visualisasi Proporsi Data abbarat dan ab pusat:")
+        st.pyplot(fig)
+        
+        # Tampilkan catatan total data
+        st.write(f"Catatan:")
+        st.write(f"- Total Data: {len(df_rekap)}")
+        st.write(f"- Program Abbarat: {len(filtered_df)}")
+        st.write(f"- Program Pusat : {len(deleted_df)}")
         
         # Tampilkan data hasil filter
-        st.write("Data program ab barat (yang cocok dengan data flip):")
+        st.write("Data AB Barat:")
         st.dataframe(filtered_df)
         
         # Tampilkan data yang dihapus
-        st.write("Data program laz pusat :")
+        st.write("Data Ab Pusat:")
         st.dataframe(deleted_df)
-
+        
         # Tampilkan data yang dihapus
         st.write("Data Invoice web yang tidak cocok (Invalid):")
         st.dataframe(unused_invoices)
         
         # Download file hasil filter
-        if st.button("Download File program ab barat"):
+        if st.button("Download File Hasil Filter"):
             output_file = "filtered_data.xlsx"
             filtered_df.to_excel(output_file, index=False)
             st.success(f"File hasil filter berhasil disimpan sebagai {output_file}")
